@@ -106,7 +106,12 @@ function initializeUser($token, $key)
 
 function getUserBalance($walletId, $key)
 {
-    return circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key)["data"]["tokenBalances"][1]["amount"];
+    $balance = circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key);
+
+    if (isset($balance["data"]["tokenBalances"][1]["amount"]))
+        return $balance["data"]["tokenBalances"][1]["amount"];
+    else
+        return 0;
 }
 
 function getWalletTokenId($walletId, $key)
