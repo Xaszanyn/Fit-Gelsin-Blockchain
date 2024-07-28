@@ -34,18 +34,18 @@ function register_email_control($email)
 
 function register_user($name, $phone, $address, $password)
 {
-    $blockchain_id = createUser(API_KEY)["userId"];
-    $session = acquireSessionToken($blockchain_id, API_KEY);
+    $blockchain = createUser(API_KEY)["userId"];
+    $session = acquireSessionToken($blockchain, API_KEY);
     $challenge = initializeUser($session["userToken"], API_KEY);
 
     $connection = connect();
 
-    $query = "INSERT INTO users(email, name, phone, address, picture, salt, hash, blockchain_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO users(email, name, phone, address, picture, salt, hash, blockchain) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $result = mysqli_prepare($connection, $query);
     $picture = "-";
     $salt = bin2hex(random_bytes(16));
     $hash = md5($password . $salt);
-    mysqli_stmt_bind_param($result, "ssssssss", $_SESSION["email"], $name, $phone, $address, $picture, $salt, $hash, $blockchain_id);
+    mysqli_stmt_bind_param($result, "ssssssss", $_SESSION["email"], $name, $phone, $address, $picture, $salt, $hash, $blockchain);
     mysqli_stmt_execute($result);
     mysqli_stmt_close($result);
 
@@ -63,11 +63,11 @@ function login_user($email, $password)
 {
     $connection = connect();
 
-    $query = "SELECT id, email, name, phone, address, picture, blockchain_id FROM users WHERE email = ? AND hash = MD5(CONCAT(?, salt))";
+    $query = "SELECT id, email, name, phone, address, picture, blockchain FROM users WHERE email = ? AND hash = MD5(CONCAT(?, salt))";
     $result = mysqli_prepare($connection, $query);
     mysqli_stmt_bind_param($result, "ss", $email, $password);
     mysqli_stmt_execute($result);
-    mysqli_stmt_bind_result($result, $id, $email, $name, $phone, $address, $picture, $blockchain_id);
+    mysqli_stmt_bind_result($result, $id, $email, $name, $phone, $address, $picture, $blockchain);
     mysqli_stmt_fetch($result);
     mysqli_stmt_close($result);
 
@@ -116,7 +116,7 @@ function login_user($email, $password)
     mysqli_close($connection);
 
     if (!empty($id)) {
-        return ["email" => $email, "name" => $name, "phone" => $phone, "address" => $address, "picture" => $picture, "orders" => $orders, "blockchain_id" => $blockchain_id];
+        return ["email" => $email, "name" => $name, "phone" => $phone, "address" => $address, "picture" => $picture, "orders" => $orders, "blockchain" => $blockchain];
     }
 }
 
