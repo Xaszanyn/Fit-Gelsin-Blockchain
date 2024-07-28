@@ -357,10 +357,19 @@ function get_user_wallet_id($email)
     return $wallet;
 }
 
-function check($address, $price, $date)
+function process_order($email, $price, $date) // Use "date"!
 {
+    $connection = connect();
 
-    return true;
+    $query = "UPDATE completed FROM orders WHERE email = ? AND price = ?";
+    $result = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($result, "ss", $email, $price);
+    mysqli_stmt_execute($result);
+
+    // $success = mysqli_stmt_affected_rows($result) > 0;
+
+    mysqli_stmt_close($result);
+    mysqli_close($connection);
 }
 
 function create_company_order_request($menu_id, $province_id, $district_id, $days, $time, $promotion, $amount, $name, $phone, $email, $address, $allergy, $disease, $extra, $tax_number, $company_name, $tax_administration, $tax_method, $company_address)

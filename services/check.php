@@ -14,6 +14,8 @@ foreach (getTransactionList() as $transaction) {
         if (($date - $_GET["date"]) / (1000 * 60 * 60) < 12) { // 12 is for easying time zone check.
             $flag = true;
             echo json_encode(["status" => "success"]);
+
+            process_order($_GET["email"], $_GET["price"], $_GET["date"]);
             break;
         }
 
