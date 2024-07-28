@@ -1,6 +1,6 @@
 <?php
 
-function get($url, $key)
+function circle_get($url, $key)
 {
     $curl = curl_init();
 
@@ -28,7 +28,7 @@ function get($url, $key)
     return json_decode($response, true);
 }
 
-function post($url, $data, $key, $headers = [])
+function circle_post($url, $data, $key, $headers = [])
 {
     $curl = curl_init();
 
@@ -70,7 +70,7 @@ function uuid()
 
 function getAppId($key)
 {
-    $response = get("https://api.circle.com/v1/w3s/config/entity", $key);
+    $response = circle_get("https://api.circle.com/v1/w3s/config/entity", $key);
     return isset($response['data']['appId']) ? $response['data']['appId'] : null;
 }
 
@@ -80,7 +80,7 @@ function createUser($key)
     $url = "https://api.circle.com/v1/w3s/users";
     $data = ['userId' => $userId];
 
-    $response = post($url, $data, $key);
+    $response = circle_post($url, $data, $key);
 
     return [
         'userId' => $userId,
@@ -93,7 +93,7 @@ function acquireSessionToken($userId, $key)
     $url = "https://api.circle.com/v1/w3s/users/token";
     $data = ['userId' => $userId];
 
-    $response = post($url, $data, $key);
+    $response = circle_post($url, $data, $key);
 
     return $response['data'] ?? null;
 }
