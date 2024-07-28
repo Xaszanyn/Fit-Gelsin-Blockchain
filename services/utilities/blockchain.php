@@ -111,7 +111,5 @@ function initializeUser($token, $key)
 
     $response = circle_post($url, $data, $key, $headers);
 
-    error_log(implode("  |  ", $response));
-
     return $response['data']['challengeId'] ?? null;
 }
