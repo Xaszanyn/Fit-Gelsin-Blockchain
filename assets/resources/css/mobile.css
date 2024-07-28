@@ -1064,3 +1064,16 @@ footer p {
 #order .company {
   display: none;
 }
+
+/* =========={ Balance }========================================================================================== */
+
+#user-balance {
+  margin: 2rem 5rem 0;
+  font-size: 5rem;
+  font-weight: 600;
+  color: var(--green);
+}
+
+#order-balance {
+  text-align: center;
+}

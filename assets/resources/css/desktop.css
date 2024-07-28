@@ -703,4 +703,13 @@
   #order #order-company {
     margin: 1rem auto;
   }
+
+  /* =========={ Balance }========================================================================================== */
+
+  #user-balance {
+    margin: 2.5rem 25rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--green);
+  }
 }

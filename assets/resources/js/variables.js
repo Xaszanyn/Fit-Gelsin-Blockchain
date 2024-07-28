@@ -107,3 +107,7 @@ const companies = document.querySelectorAll("#order .company");
 const individuals = document.querySelectorAll("#order .individual");
 
 var information;
+
+var balance = 0;
+const userBalance = document.querySelector("#user #user-balance");
+const orderBalance = document.querySelector("#order #order-balance");

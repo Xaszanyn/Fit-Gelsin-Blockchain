@@ -370,6 +370,11 @@ async function loginDirect(email, password, remembered = false) {
 
   inputLoading.classList.remove("loading");
 
+  balance = response.balance;
+
+  userBalance.innerHTML = `Bakiye: ${balance}$`;
+  orderBalance.innerHTML = `Bakiye: ${balance}$`;
+
   switch (response.status) {
     case "error":
       notify();
@@ -521,8 +526,8 @@ async function selectMenu(selected = true) {
       orderSection.menu.innerHTML = `<img src="./assets/images/menus/${selectedMenu.picture}"> ${selectedMenu.name}`;
       orderSection.price.innerHTML =
         response.price == response.original
-          ? `${response.price}₺`
-          : `${response.price}₺ <span>${response.original}₺</span>`;
+          ? `${response.price}$`
+          : `${response.price}$ <span>${response.original}$</span>`;
       break;
   }
 }
