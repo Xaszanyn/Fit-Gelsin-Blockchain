@@ -326,6 +326,12 @@ async function registerThirdPhase(event) {
       localStorage.clear();
       loginDirect(email, registerSection.password.value);
       registerReturn();
+      W3SSDK.complete(
+        response.data.appId,
+        response.data.userToken,
+        response.data.encryptionKey,
+        response.data.challengeId
+      );
       break;
   }
 }
