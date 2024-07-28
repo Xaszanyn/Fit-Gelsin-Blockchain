@@ -71,16 +71,15 @@ function uuid()
 function getAppId($key)
 {
     $response = circle_get("https://api.circle.com/v1/w3s/config/entity", $key);
+
     return isset($response['data']['appId']) ? $response['data']['appId'] : null;
 }
 
 function createUser($key)
 {
     $userId = uuid();
-    $url = "https://api.circle.com/v1/w3s/users";
-    $data = ['userId' => $userId];
 
-    $response = circle_post($url, $data, $key);
+    $response = circle_post("https://api.circle.com/v1/w3s/users", ['userId' => $userId], $key);
 
     return [
         'userId' => $userId,
@@ -90,27 +89,32 @@ function createUser($key)
 
 function acquireSessionToken($userId, $key)
 {
-    $url = "https://api.circle.com/v1/w3s/users/token";
-    $data = ['userId' => $userId];
-
-    $response = circle_post($url, $data, $key);
+    $response = circle_post("https://api.circle.com/v1/w3s/users/token", ['userId' => $userId], $key);
 
     return $response['data'] ?? null;
 }
 
 function initializeUser($token, $key)
 {
-    $url = "https://api.circle.com/v1/w3s/user/initialize";
-    $data = [
+    $response = circle_post("https://api.circle.com/v1/w3s/user/initialize", [
         'idempotencyKey' => uuid(),
-        "accountType" => "SCA",
         'blockchains' => ['MATIC-AMOY']
-    ];
-    $headers = [
+    ], $key, [
         'X-User-Token' => $token
-    ];
-
-    $response = circle_post($url, $data, $key, $headers);
+    ]);
 
     return $response['data']['challengeId'] ?? null;
 }
+
+/* !!! IT DOES NOT WORK FOR USER CONTROLLED WALLETS !!! */
+
+// function getUserWallet($userId, $key)
+// {
+//     $response = circle_get("https://api.circle.com/v1/w3s/walletSets", $key);
+
+//     foreach ($response["data"]["walletSets"] as $walletSet) {
+//         if ($userId == $walletSet["userId"]) {
+//             return $walletSet["id"];
+//         }
+//     }
+// }
