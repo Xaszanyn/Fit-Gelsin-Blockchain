@@ -106,6 +106,13 @@ function initializeUser($token, $key)
     return $response['data']['challengeId'] ?? null;
 }
 
+function getUserBalance($walletId, $key)
+{
+    $response = circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key);
+
+    return $response["tokenBalances"][1]["amount"];
+}
+
 /* !!! IT DOES NOT WORK FOR USER CONTROLLED WALLETS !!! */
 
 // function getUserWallet($userId, $key)
