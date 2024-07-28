@@ -72,8 +72,8 @@ function create($code, $name, $phone, $address, $password)
         return json_encode(["status" => "code_invalid"]);
 
     send_announcement_mail($_SESSION["email"], "Fit Gelsin Üyelik", "Fit Gelsin'e hoş geldiniz. Aramıza katıldığınız için çok mutluyuz. Artık rahatça size en uygun menüyü seçip siparişinizi verebilirsiniz. Aklınıza takılan tüm sorular için site üzerindeki butondan diyetisyenlerimize ulaşabilirsiniz. Dilerseniz instagram üzerinden bizi takip ederek yeni menüler, çeşitli indirimler ve etkinliklerden haberdar olabilirsiniz. Sağlıklı günler, @fit4ubox.", $name);
-    register_user($name, $phone, $address, $password);
+    $data = register_user($name, $phone, $address, $password);
     session_destroy();
 
-    return json_encode(["status" => "success"]);
+    return json_encode(["status" => "success", "data" => $data]);
 }
