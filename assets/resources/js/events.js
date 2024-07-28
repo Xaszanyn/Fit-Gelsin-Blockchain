@@ -25,6 +25,13 @@ assign(menusButton, (event) => {
   load(menusButton, menus);
 });
 assign(orderButton, (event) => {
+  if (!localStorage.email) {
+    order.innerHTML = "<p>Sipariş vermek için üye olmanız gerekmektedir.</p>";
+    setTimeout(() => (location.href = ""), 2000);
+
+    return;
+  }
+
   load(orderButton, order);
   auto();
 });
@@ -42,6 +49,13 @@ assign(menuMenusButton, (event) => {
   closePopUpThenLoad(menusButton, menus);
 });
 assign(menuOrderButton, (event) => {
+  if (!localStorage.email) {
+    order.innerHTML = "<p>Sipariş vermek için üye olmanız gerekmektedir.</p>";
+    setTimeout(() => (location.href = ""), 2000);
+
+    return;
+  }
+
   closePopUpThenLoad(orderButton, order);
   auto();
 });
@@ -72,12 +86,6 @@ assign(logout, logoutUser);
 assign(
   orderSection.menu,
   (event) => {
-    if (!localStorage.email) {
-      order.innerHTML = "<p>Sipariş vermek için üye olmanız gerekmektedir.</p>";
-      setTimeout(() => (location.href = ""), 2000);
-
-      return;
-    }
     getMenus();
 
     load(menusButton, menus);
