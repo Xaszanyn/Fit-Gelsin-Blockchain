@@ -72,7 +72,12 @@ assign(logout, logoutUser);
 assign(
   orderSection.menu,
   (event) => {
+    if (!information) {
+      order.innerHTML = "<p>Sipariş vermek için üye olmanız gerekmektedir.</p>";
+      setTimeout(() => (location.href = ""), 2000);
+    }
     getMenus();
+
     load(menusButton, menus);
   },
   false,
@@ -86,7 +91,7 @@ orderSection.amount.addEventListener("change", changeAmount);
 assign(orderSection.complete, completeOrder);
 
 assign(orderSection.individual, () => switchOrderType(false));
-assign(orderSection.company, () => switchOrderType(true));
+// assign(orderSection.company, () => switchOrderType(true));
 
 document.querySelectorAll("nav > img, nav h1").forEach((element) => assign(element, () => (location = "")));
 
