@@ -151,10 +151,21 @@ function makeTransaction($price, $userId, $userToken, $encryptionKey, $walletId,
     ]);
 
     return [
+        "appId" => APP_ID,
         'userToken' => $userToken,
         'encryptionKey' => $encryptionKey,
-        'idempotencyKey' => $idempotencyKey,
-        'challengeId' => $response
+        'challengeId' => $response,
+        "DEBUG" =>
+            "$price | $userId | $userToken | $encryptionKey | $walletId | $tokenId | $destinationAddress | $key"
         // 'challengeId' => $response['data']['challengeId']
+        // 'idempotencyKey' => $idempotencyKey,
     ];
+
+
+    // return [
+    //     "appId" => APP_ID,
+    //     "userToken" => $session["userToken"],
+    //     "encryptionKey" => $session["encryptionKey"],
+    //     "challengeId" => $challenge
+    // ];
 }
