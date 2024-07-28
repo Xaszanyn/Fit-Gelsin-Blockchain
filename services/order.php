@@ -3,6 +3,7 @@
 require "./utilities/post.php";
 require "./utilities/database.php";
 require_once "./utilities/configuration.php";
+require "./utilities/mail.php";
 
 $order = post();
 
