@@ -2,7 +2,6 @@
 
 require "./utilities/post.php";
 require "./utilities/database.php";
-require "./utilities/blockchain.php";
 
 $login = post();
 
