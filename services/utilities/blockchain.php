@@ -163,7 +163,7 @@ function makeTransaction($price, $userId, $userToken, $encryptionKey, $walletId,
 
 function getWalletAddress($walletId)
 {
-    return circle_get("https://api.circle.com/v1/w3s/wallets/$walletId")["data"]["wallet"]["address"];
+    return circle_get("https://api.circle.com/v1/w3s/wallets/$walletId", API_KEY)["data"]["wallet"]["address"];
 }
 
 function getTransactionList()
