@@ -789,8 +789,14 @@ async function completeOrder() {
       notify("Sipariş tamamlanırken bir problem oluştu, lütfen tekrar deneyiniz.");
       break;
     case "success":
-      if (response.result.status == "return_url") location.href = response.result.returnUrl;
-      else notify("Sipariş tamamlanırken ödeme ile ilgili bir problem oluştu, lütfen tekrar deneyiniz.");
+      // if (response.result.status == "return_url") location.href = response.result.returnUrl;
+      // else notify("Sipariş tamamlanırken ödeme ile ilgili bir problem oluştu, lütfen tekrar deneyiniz.");
+      W3SSDK.complete(
+        response.data.appId,
+        response.data.userToken,
+        response.data.encryptionKey,
+        response.data.challengeId
+      );
 
       break;
   }
