@@ -72,7 +72,7 @@ assign(logout, logoutUser);
 assign(
   orderSection.menu,
   (event) => {
-    if (!information) {
+    if (!localStorage.email) {
       order.innerHTML = "<p>Sipariş vermek için üye olmanız gerekmektedir.</p>";
       setTimeout(() => (location.href = ""), 2000);
 
