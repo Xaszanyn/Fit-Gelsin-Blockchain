@@ -26,8 +26,7 @@ assign(menusButton, (event) => {
 });
 assign(orderButton, (event) => {
   if (!localStorage.email) {
-    order.innerHTML = "<p>Sipariş vermek için üye olmanız gerekmektedir.</p>";
-    setTimeout(() => (location.href = ""), 2000);
+    notify("Sipariş vermek için üye olmanız gerekmektedir.");
 
     return;
   }
@@ -50,8 +49,7 @@ assign(menuMenusButton, (event) => {
 });
 assign(menuOrderButton, (event) => {
   if (!localStorage.email) {
-    order.innerHTML = "<p>Sipariş vermek için üye olmanız gerekmektedir.</p>";
-    setTimeout(() => (location.href = ""), 2000);
+    notify("Sipariş vermek için üye olmanız gerekmektedir.");
 
     return;
   }
