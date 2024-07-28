@@ -75,6 +75,8 @@ assign(
     if (!information) {
       order.innerHTML = "<p>Sipariş vermek için üye olmanız gerekmektedir.</p>";
       setTimeout(() => (location.href = ""), 2000);
+
+      return;
     }
     getMenus();
 
