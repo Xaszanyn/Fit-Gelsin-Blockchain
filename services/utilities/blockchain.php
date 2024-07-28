@@ -109,7 +109,7 @@ function initializeUser($token, $key)
         'X-User-Token' => $token
     ];
 
-    $response = post($url, $data, $key, $headers);
+    $response = circle_post($url, $data, $key, $headers);
 
     error_log(implode("  |  ", $response));
 
