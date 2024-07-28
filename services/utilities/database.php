@@ -318,11 +318,11 @@ function process_balance($email, $price)
 }
 
 
-function create_order($menu_id, $province_id, $district_id, $days, $time, $promotion, $amount, $name, $phone, $email, $address, $gender, $height, $weight, $allergy, $disease, $occupation, $extra)
+function create_order($menu_id, $province_id, $district_id, $days, $time, $promotion, $amount, $name, $phone, $email, $address, $gender, $height, $weight, $allergy, $disease, $occupation, $extra, $price)
 {
     $connection = connect();
 
-    $query = "INSERT INTO orders(menu_id, date, province_id, district_id, days, time, promotion, amount, name, phone, email, address, gender, height, weight, allergy, disease, occupation, extra) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO orders(menu_id, date, province_id, district_id, days, time, promotion, amount, name, phone, email, address, gender, height, weight, allergy, disease, occupation, extra, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $result = mysqli_prepare($connection, $query);
     date_default_timezone_set("Europe/Istanbul");
     $date = date('Y-m-d H:i:s');
@@ -330,7 +330,7 @@ function create_order($menu_id, $province_id, $district_id, $days, $time, $promo
     $disease = empty($disease) ? "-" : $disease;
     $occupation = empty($occupation) ? "-" : $occupation;
     $extra = empty($extra) ? "-" : $extra;
-    mysqli_stmt_bind_param($result, "sssssssssssssssssss", $menu_id, $date, $province_id, $district_id, $days, $time, $promotion, $amount, $name, $phone, $email, $address, $gender, $height, $weight, $allergy, $disease, $occupation, $extra);
+    mysqli_stmt_bind_param($result, "ssssssssssssssssssss", $menu_id, $date, $province_id, $district_id, $days, $time, $promotion, $amount, $name, $phone, $email, $address, $gender, $height, $weight, $allergy, $disease, $occupation, $extra, $price);
     mysqli_stmt_execute($result);
     $id = mysqli_insert_id($connection);
     mysqli_stmt_close($result);
@@ -338,6 +338,29 @@ function create_order($menu_id, $province_id, $district_id, $days, $time, $promo
     mysqli_close($connection);
 
     return $id;
+}
+
+function get_user_wallet_id($email)
+{
+    $connection = connect();
+
+    $query = "SELECT wallet FROM users WHERE email = ?";
+    $result = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($result, "s", $email);
+    mysqli_stmt_execute($result);
+    mysqli_stmt_bind_result($result, $wallet);
+    mysqli_stmt_fetch($result);
+    mysqli_stmt_close($result);
+
+    mysqli_close($connection);
+
+    return $wallet;
+}
+
+function check($address, $price, $date)
+{
+
+    return true;
 }
 
 function create_company_order_request($menu_id, $province_id, $district_id, $days, $time, $promotion, $amount, $name, $phone, $email, $address, $allergy, $disease, $extra, $tax_number, $company_name, $tax_administration, $tax_method, $company_address)
@@ -367,38 +390,38 @@ function create_company_order_request($menu_id, $province_id, $district_id, $day
 
 
 
-function get_order($id)
-{
-    $connection = connect();
+// function get_order($id)
+// {
+//     $connection = connect();
 
-    $table = ($id[0] == "C" ? "company_order_requests" : "order_requests");
+//     $table = ($id[0] == "C" ? "company_order_requests" : "order_requests");
 
-    $query = "SELECT menus.name, date, provinces.name, districts.name, days, time, promotion, amount, $table.name, phone, email, address FROM $table INNER JOIN menus ON $table.menu_id = menus.id INNER JOIN provinces ON $table.province_id = provinces.id INNER JOIN districts ON $table.district_id = districts.id WHERE $table.id = ?";
-    $result = mysqli_prepare($connection, $query);
+//     $query = "SELECT menus.name, date, provinces.name, districts.name, days, time, promotion, amount, $table.name, phone, email, address FROM $table INNER JOIN menus ON $table.menu_id = menus.id INNER JOIN provinces ON $table.province_id = provinces.id INNER JOIN districts ON $table.district_id = districts.id WHERE $table.id = ?";
+//     $result = mysqli_prepare($connection, $query);
 
-    if ($id[0] == "C")
-        $id = substr($id, 1);
+//     if ($id[0] == "C")
+//         $id = substr($id, 1);
 
-    mysqli_stmt_bind_param($result, "s", $id);
-    mysqli_stmt_execute($result);
-    mysqli_stmt_bind_result($result, $menu_name, $date, $province, $district, $days, $time, $promotion, $amount, $name, $phone, $email, $address);
-    mysqli_stmt_fetch($result);
-    mysqli_stmt_close($result);
+//     mysqli_stmt_bind_param($result, "s", $id);
+//     mysqli_stmt_execute($result);
+//     mysqli_stmt_bind_result($result, $menu_name, $date, $province, $district, $days, $time, $promotion, $amount, $name, $phone, $email, $address);
+//     mysqli_stmt_fetch($result);
+//     mysqli_stmt_close($result);
 
-    mysqli_close($connection);
+//     mysqli_close($connection);
 
-    return [
-        "menu_name" => $menu_name,
-        "date" => $date,
-        "province" => $province,
-        "district" => $district,
-        "days" => $days,
-        "time" => $time,
-        "promotion" => $promotion,
-        "amount" => $amount,
-        "name" => $name,
-        "phone" => $phone,
-        "email" => $email,
-        "address" => $address,
-    ];
-}
+//     return [
+//         "menu_name" => $menu_name,
+//         "date" => $date,
+//         "province" => $province,
+//         "district" => $district,
+//         "days" => $days,
+//         "time" => $time,
+//         "promotion" => $promotion,
+//         "amount" => $amount,
+//         "name" => $name,
+//         "phone" => $phone,
+//         "email" => $email,
+//         "address" => $address,
+//     ];
+// }

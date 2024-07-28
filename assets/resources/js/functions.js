@@ -798,6 +798,16 @@ async function completeOrder() {
         response.data.challengeId
       );
 
+      let interval = setInterval(async () => {
+        let status = await get(
+          `check.php?email=${orderSection.email.value}&price=${
+            orderSection.price.innerHTML.split("$")[0]
+          }&date${new Date().getTime()}`
+        );
+
+        console.log(status);
+      }, 5000);
+
       break;
   }
 }

@@ -15,7 +15,7 @@ $data = process_balance($order["email"], $price);
 if (!$data)
     echo json_encode(["status" => "error"]);
 else {
-    $id = create_order($order["id"], $order["province"], $order["district"], $order["days"], $order["time"], $order["promotion"], $order["amount"], $order["name"], $order["phone"], $order["email"], $order["address"], $order["gender"], $order["height"], $order["weight"], $order["allergy"], $order["disease"], $order["occupation"], $order["extra"]);
+    $id = create_order($order["id"], $order["province"], $order["district"], $order["days"], $order["time"], $order["promotion"], $order["amount"], $order["name"], $order["phone"], $order["email"], $order["address"], $order["gender"], $order["height"], $order["weight"], $order["allergy"], $order["disease"], $order["occupation"], $order["extra"], $price);
 
     send_order_mail($order["email"], "Fit Gelsin Sipariş", "Siparişiniz başarıyla alınmıştır, sipariş ile ilgili detaylı bilgileri aşağıdan görüntüleyebilirsiniz. Faturanız kayıtlı e-posta adresinize iletilecektir.", $order);
     send_order_mail("ekinaslant@gmail.com", "Fit Gelsin Sipariş", "Yeni Sipariş Takibi", $order);

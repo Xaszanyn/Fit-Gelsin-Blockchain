@@ -70,9 +70,7 @@ function uuid()
 
 function getAppId($key)
 {
-    $response = circle_get("https://api.circle.com/v1/w3s/config/entity", $key);
-
-    return isset($response['data']['appId']) ? $response['data']['appId'] : null;
+    return circle_get("https://api.circle.com/v1/w3s/config/entity", $key)['data']['appId'];
 }
 
 function createUser($key)
@@ -108,16 +106,12 @@ function initializeUser($token, $key)
 
 function getUserBalance($walletId, $key)
 {
-    $response = circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key);
-
-    return $response["data"]["tokenBalances"][1]["amount"];
+    return circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key)["data"]["tokenBalances"][1]["amount"];
 }
 
 function getWalletTokenId($walletId, $key)
 {
-    $response = circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key);
-
-    return $response["data"]["tokenBalances"][1]["token"]["id"];
+    return circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key)["data"]["tokenBalances"][1]["token"]["id"];
 }
 
 /* !!! IT DOES NOT WORK FOR USER CONTROLLED WALLETS !!! */
@@ -165,4 +159,14 @@ function makeTransaction($price, $userId, $userToken, $encryptionKey, $walletId,
     //     "encryptionKey" => $session["encryptionKey"],
     //     "challengeId" => $challenge
     // ];
+}
+
+function getWalletAddress($walletId)
+{
+    return circle_get("https://api.circle.com/v1/w3s/wallets/$walletId")["data"]["wallet"]["address"];
+}
+
+function getTransactionList()
+{
+    return circle_get("https://api.circle.com/v1/w3s/transactions?destinationAddress=0x7c5dae7f89c522faa3324aea7a3cf412a896d0cf")["data"]["transactions"];
 }
