@@ -361,7 +361,7 @@ function process_order($email, $price, $date) // Use "date"!
 {
     $connection = connect();
 
-    $query = "UPDATE orders SET completed = 1 FROM orders WHERE email = ? AND price = ?";
+    $query = "UPDATE orders SET completed = TRUE FROM orders WHERE email = ? AND price = ?";
     $result = mysqli_prepare($connection, $query);
     mysqli_stmt_bind_param($result, "ss", $email, $price);
     mysqli_stmt_execute($result);
