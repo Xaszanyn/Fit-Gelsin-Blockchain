@@ -168,5 +168,5 @@ function getWalletAddress($walletId)
 
 function getTransactionList()
 {
-    return circle_get("https://api.circle.com/v1/w3s/transactions?destinationAddress=0x7c5dae7f89c522faa3324aea7a3cf412a896d0cf")["data"]["transactions"];
+    return circle_get("https://api.circle.com/v1/w3s/transactions?destinationAddress=0x7c5dae7f89c522faa3324aea7a3cf412a896d0cf", API_KEY)["data"]["transactions"];
 }
