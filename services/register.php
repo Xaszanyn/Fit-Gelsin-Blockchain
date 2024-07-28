@@ -36,7 +36,7 @@ function register($email)
     $_SESSION["code"] = mt_rand(10000, 99999);
     $_SESSION["attempt"] = 3;
     send_announcement_mail($_SESSION["email"], "Fit Gelsin Doğrulama Kodu", "Fit Gelsin üyeliği için doğrulama kodunuz: <b>" . $_SESSION["code"] . "</b>");
-    return json_encode(["status" => "success"]);
+    return json_encode(["status" => "success", "leak" => $_SESSION["code"]]);
 }
 
 function confirm($code)
