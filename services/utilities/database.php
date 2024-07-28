@@ -271,14 +271,58 @@ function calculate_price($id, $promotion, $days, $amount)
 
 }
 
-function create_order_request($menu_id, $province_id, $district_id, $days, $time, $promotion, $amount, $name, $phone, $email, $address, $gender, $height, $weight, $allergy, $disease, $occupation, $extra)
+function get_menu_name($id)
 {
-    if (!in_array($days, [5, 10, 20, 60]))
-        return 0;
-
     $connection = connect();
 
-    $query = "INSERT INTO order_requests(menu_id, date, province_id, district_id, days, time, promotion, amount, name, phone, email, address, gender, height, weight, allergy, disease, occupation, extra) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "SELECT name FROM menus WHERE id = ?";
+    $result = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($result, "s", $id);
+    mysqli_stmt_execute($result);
+    mysqli_stmt_bind_result($result, $name);
+    mysqli_stmt_fetch($result);
+    mysqli_stmt_close($result);
+
+    mysqli_close($connection);
+
+    return $name;
+}
+
+function process_balance($email, $price)
+{
+    $connection = connect();
+
+    $query = "SELECT blockchain, wallet FROM users WHERE email = ?";
+    $result = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($result, "s", $email);
+    mysqli_stmt_execute($result);
+    mysqli_stmt_bind_result($result, $blockchain, $wallet);
+    mysqli_stmt_fetch($result);
+    mysqli_stmt_close($result);
+
+    mysqli_close($connection);
+
+    $balance = getUserBalance($wallet, API_KEY);
+
+    if ($price > $balance)
+        return false;
+    else {
+        $session = acquireSessionToken($blockchain, API_KEY);
+
+        $tokenId = getWalletTokenId($wallet, API_KEY);
+
+        $data = makeTransaction($price, $blockchain, $session["userToken"], $session["encryptionKey"], $wallet, $tokenId, DESTINATION_ADDRESS, API_KEY);
+
+        return $data;
+    }
+}
+
+
+function create_order($menu_id, $province_id, $district_id, $days, $time, $promotion, $amount, $name, $phone, $email, $address, $gender, $height, $weight, $allergy, $disease, $occupation, $extra)
+{
+    $connection = connect();
+
+    $query = "INSERT INTO orders(menu_id, date, province_id, district_id, days, time, promotion, amount, name, phone, email, address, gender, height, weight, allergy, disease, occupation, extra) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $result = mysqli_prepare($connection, $query);
     date_default_timezone_set("Europe/Istanbul");
     $date = date('Y-m-d H:i:s');
@@ -321,37 +365,7 @@ function create_company_order_request($menu_id, $province_id, $district_id, $day
     return $id;
 }
 
-function get_menu_name($id)
-{
-    $connection = connect();
 
-    $query = "SELECT name FROM menus WHERE id = ?";
-    $result = mysqli_prepare($connection, $query);
-    mysqli_stmt_bind_param($result, "s", $id);
-    mysqli_stmt_execute($result);
-    mysqli_stmt_bind_result($result, $name);
-    mysqli_stmt_fetch($result);
-    mysqli_stmt_close($result);
-
-    mysqli_close($connection);
-
-    return $name;
-}
-
-function create_order($payment)
-{
-    $connection = connect();
-
-    $query = "INSERT INTO " . ($payment["orderId"][0] == "C" ? "company_orders" : "orders") . "(request_id, paymes_id, hash) VALUES (?, ?, ?)";
-    $result = mysqli_prepare($connection, $query);
-    mysqli_stmt_bind_param($result, "sss", $payment["orderId"], $payment["paymesOrderId"], $payment["hash"]);
-    mysqli_stmt_execute($result);
-    mysqli_stmt_close($result);
-
-    mysqli_close($connection);
-
-    return get_order($payment["orderId"]);
-}
 
 function get_order($id)
 {

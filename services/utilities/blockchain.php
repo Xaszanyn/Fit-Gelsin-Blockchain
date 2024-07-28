@@ -113,6 +113,13 @@ function getUserBalance($walletId, $key)
     return $response["data"]["tokenBalances"][1]["amount"];
 }
 
+function getWalletTokenId($walletId, $key)
+{
+    $response = circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key);
+
+    return $response["data"]["tokenBalances"][1]["token"]["id"];
+}
+
 /* !!! IT DOES NOT WORK FOR USER CONTROLLED WALLETS !!! */
 
 // function getUserWallet($userId, $key)
@@ -125,3 +132,28 @@ function getUserBalance($walletId, $key)
 //         }
 //     }
 // }
+
+function makeTransaction($price, $userId, $userToken, $encryptionKey, $walletId, $tokenId, $destinationAddress, $key)
+{
+    $idempotencyKey = uuid();
+
+    $response = circle_post("https://api.circle.com/v1/w3s/user/transactions/transfer", [
+        'idempotencyKey' => $idempotencyKey,
+        'userId' => $userId,
+        'destinationAddress' => $destinationAddress,
+        'refId' => '',
+        'amounts' => [$price],
+        'feeLevel' => 'HIGH',
+        'tokenId' => $tokenId,
+        'walletId' => $walletId
+    ], $key, [
+        'X-User-Token' => $userToken
+    ]);
+
+    return [
+        'userToken' => $userToken,
+        'encryptionKey' => $encryptionKey,
+        'idempotencyKey' => $idempotencyKey,
+        'challengeId' => $response['data']['challengeId']
+    ];
+}
