@@ -1,7 +1,6 @@
 <?php
 
 require "./utilities/database.php";
-require "./utilities/blockchain.php";
 
 $address = getWalletAddress(get_user_wallet_id($_GET["email"]));
 
