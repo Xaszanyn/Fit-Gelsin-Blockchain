@@ -495,6 +495,12 @@ async function getMenus() {
       (event) => {
         selectedMenu = { ...selectedMenu, ...event.target.dataset };
         selectMenu();
+
+        if (!localStorage.email) {
+          notify("Sipariş vermek için üye olmanız gerekmektedir.");
+
+          return;
+        }
         load(orderButton, order);
       },
       false,
