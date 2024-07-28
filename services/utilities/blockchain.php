@@ -142,7 +142,7 @@ function makeTransaction($price, $userId, $userToken, $encryptionKey, $walletId,
         'userId' => $userId,
         'destinationAddress' => $destinationAddress,
         'refId' => '',
-        'amounts' => [$price],
+        'amounts' => ["$price"],
         'feeLevel' => 'HIGH',
         'tokenId' => $tokenId,
         'walletId' => $walletId
