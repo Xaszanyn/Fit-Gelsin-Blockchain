@@ -154,6 +154,7 @@ function makeTransaction($price, $userId, $userToken, $encryptionKey, $walletId,
         'userToken' => $userToken,
         'encryptionKey' => $encryptionKey,
         'idempotencyKey' => $idempotencyKey,
-        'challengeId' => $response['data']['challengeId']
+        'challengeId' => $response
+        // 'challengeId' => $response['data']['challengeId']
     ];
 }
