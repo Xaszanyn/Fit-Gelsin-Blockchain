@@ -370,7 +370,7 @@ async function loginDirect(email, password, remembered = false) {
 
   inputLoading.classList.remove("loading");
 
-  balance = response.balance;
+  balance = response.balance ? response.balance : 0;
 
   userBalance.innerHTML = `Bakiye: ${balance}$`;
   orderBalance.innerHTML = `Bakiye: ${balance}$`;
