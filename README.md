@@ -1,8 +1,7 @@
 # Fit Gelsin Blockchain
 ## [fitgelsin.com/blockchain](fitgelsin.com/blockchain)
 
-Simply, Its a meal delivery service website. The site accepts registration, but since the balance starts from 0$, it is recommended to enter with a test account.
-Company order option may not work.
+Simply, Its a meal delivery service website. The site accepts registration, but since the balance starts from 0$, it is recommended to enter with a test account
 
 ### Test Account
 - Email: **ekin@aslan.com**
