@@ -799,28 +799,36 @@ async function completeOrder() {
       );
 
       let interval = setInterval(async () => {
-        let status = await get(
+        let response = await get(
           `check.php?email=${orderSection.email.value}&price=${
             orderSection.price.innerHTML.split("$")[0]
           }&date=${new Date().getTime()}`
         );
 
-        console.log(status);
-      }, 5000);
+        if (response.status == "success") {
+          location.href = "https://fitgelsin.com/blockchain?fromOrderToUser";
+          clearInterval(interval);
+        }
+      }, 1000);
 
       break;
   }
 }
 
 function redirectOrder() {
-  let parameters = new Proxy(new URLSearchParams(location.search), {
-    get: (parameters, property) => parameters.get(property),
-  });
-
-  if (parameters.payment) {
-    redirectedNotification.innerHTML = `Ödemeniz başarıyla alınmıştır, siparişiniz şu an işleniyor.<br>${parameters.payment} numaralı siparişinizin detayları mail olarak iletilecektir. Uzman diyetisyen ekibimiz kayıtlı telefonunuzdan sizinle bir iş günü içinde iletişime geçecektir. Sağlıklı günler dileriz.`;
-    redirectedNotification.style.display = "block";
+  if (location.href.split("?")[1] == fromOrderToUser) {
+    notify(
+      "Ödemeniz başarıyla alınmıştır, siparişiniz şu an işleniyor. Siparişinizin detayları mail olarak iletilecektir. Sağlıklı günler dileriz."
+    );
   }
+  // let parameters = new Proxy(new URLSearchParams(location.search), {
+  //   get: (parameters, property) => parameters.get(property),
+  // });
+
+  // if (parameters.payment) {
+  //   redirectedNotification.innerHTML = `Ödemeniz başarıyla alınmıştır, siparişiniz şu an işleniyor.<br>${parameters.payment} numaralı siparişinizin detayları mail olarak iletilecektir. Uzman diyetisyen ekibimiz kayıtlı telefonunuzdan sizinle bir iş günü içinde iletişime geçecektir. Sağlıklı günler dileriz.`;
+  //   redirectedNotification.style.display = "block";
+  // }
 }
 
 function switchOrderType(company) {
