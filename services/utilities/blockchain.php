@@ -103,6 +103,7 @@ function initializeUser($token, $key)
     $url = "https://api.circle.com/v1/w3s/user/initialize";
     $data = [
         'idempotencyKey' => uuid(),
+        "accountType" => "SCA",
         'blockchains' => ['MATIC-AMOY']
     ];
     $headers = [
