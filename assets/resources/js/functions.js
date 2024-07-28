@@ -816,7 +816,7 @@ async function completeOrder() {
 }
 
 function redirectOrder() {
-  if (location.href.split("?")[1] == fromOrderToUser) {
+  if (location.href.split("?")[1] == "fromOrderToUser") {
     notify(
       "Ödemeniz başarıyla alınmıştır, siparişiniz şu an işleniyor. Siparişinizin detayları mail olarak iletilecektir. Sağlıklı günler dileriz."
     );
