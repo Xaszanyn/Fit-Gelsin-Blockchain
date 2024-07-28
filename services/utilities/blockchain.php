@@ -110,6 +110,8 @@ function getUserBalance($walletId, $key)
 {
     $response = circle_get("https://api.circle.com/v1/w3s/wallets/" . $walletId . "/balances", $key);
 
+    return $response;
+
     return $response["tokenBalances"][1]["amount"];
 }
 
