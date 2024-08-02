@@ -7,6 +7,14 @@ Simply, Its a meal delivery service website. The site accepts registration, but 
 - Email: **ekin@aslan.com**
 - Password: **şifre**
 
+### Discount Promotion Codes
+- **CIRCLE** (90% Discount)
+- **HALF** (50% Discount)
+
+### Secondary Test Account
+- Email: **test@test.com**
+- Password: **şifre**
+
 ### Project Use Cases
 
 - Register User (Create User & Wallet)
